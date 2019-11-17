@@ -51,9 +51,11 @@ class Decorate {
       case 'table':
         // return `\n| ${this.target} |  |\n| -- | -- |\n|  |  |\n`
         return this.formatTableText(this.target, option)
-      case 'image': 
+      case 'emoji':
+        return option.emoji
+      case 'image':
         return `![${this.target}](${option.imageUrl || ''})`
-      case 'link': 
+      case 'link':
         return `[${this.target}](${option.linkUrl || ''})`
       default:
         return `${this.target}`
@@ -67,7 +69,7 @@ class Decorate {
     let colStr = ''
     let result = ''
     for (let i = 0; i <= col; i++) {
-      rowHeader.push(' Head |')      
+      rowHeader.push(' Head |')
       rowDivision.push(' --- |')
       rowData.push(' Data |')
     }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
 import * as tool from '../utils/tool'
 import Logger from '../utils/logger'
 import Decorate from '../utils/decorate'
@@ -68,6 +70,7 @@ export class MdEditor extends Component {
     this.config = this.initConfig()
 
     this.state = {
+      showEmoji: false,
       text: (this.formatString(this.props.value) || '').replace(/↵/g, '\n'),
       html: '',
       view: this.config.view,
@@ -225,6 +228,7 @@ export class MdEditor extends Component {
       'inlinecode',
       'code',
       'table',
+      'emoji',
       'image',
       'link'
     ]
@@ -365,6 +369,16 @@ export class MdEditor extends Component {
     })
   }
 
+  addEmoji = (emoji) => {
+    console.log('emoji: ', emoji)
+    this.handleDecorate('emoji', { emoji: emoji.native })
+    this.setState({ showEmoji: false })
+  }
+
+  toggleEmoji = () => {
+    this.setState({ showEmoji: !this.state.showEmoji })
+  }
+
   _handleChange(e) {
     e.persist();
     this.startLogger()
@@ -464,7 +478,12 @@ export class MdEditor extends Component {
   }
 
   render() {
-    const { view, dropButton, fullScreen, table } = this.state
+    const { view, dropButton, fullScreen, table, showEmoji } = this.state
+    const emojiNode = showEmoji && (
+      <div>
+        <Picker onSelect={this.addEmoji} />
+      </div>
+    )
     const renderNavigation = () => {
       return view.menu &&
         <NavigationBar
@@ -518,14 +537,21 @@ export class MdEditor extends Component {
                   }}
                 />
               </span>
-              <span className="button" title="image" onClick={this.handleImageUpload} style={{ position: 'relative' }}>
+
+              <span className="button" title="emoji" onClick={this.toggleEmoji}>
+                {/* <Icon type="icon-image" /> */}
+                😎
+                {emojiNode}
+              </span>
+
+              {/* <span className="button" title="image" onClick={this.handleImageUpload} style={{ position: 'relative' }}>
                 <Icon type="icon-photo" />
                 <InputFile accept={this.config.imageAccept || ""} ref={(input) => { this.inputFile = input }} onChange={(e) => {
                   e.persist()
                   const file = e.target.files[0]
                   this.onImageChanged(file)
                 }} />
-              </span>
+              </span> */}
               <span className="button" title="link" onClick={() => this.handleDecorate('link')}><Icon type="icon-link" /></span>
 
               <span className="button" title="empty" onClick={this.handleEmpty}><Icon type="icon-trash" /></span>
