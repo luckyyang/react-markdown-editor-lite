@@ -570,6 +570,7 @@ export class MdEditor extends Component {
     }
     const renderContent = () => {
       const { html, text, view, htmlType } = this.state
+      const { hidePreview, hideToggle } = this.props
       const res = []
       if (view.md) {
         res.push(
@@ -578,10 +579,10 @@ export class MdEditor extends Component {
               <span className="button" title={view.menu ? 'hidden menu' : 'show menu'} onClick={this.handleToggleMenu}>
                 {view.menu ? <Icon type="icon-chevron-up" /> : <Icon type="icon-chevron-down" />}
               </span>
-              <span className="button" title={view.html ? 'preview' : 'column'} onClick={this.handleMdPreview}>
+              {!hidePreview && <span className="button" title={view.html ? 'preview' : 'column'} onClick={this.handleMdPreview}>
                 {view.html ? <Icon type="icon-desktop" /> : <Icon type="icon-columns" />}
-              </span>
-              <span className="button" title={'toggle'} onClick={() => this.handleToggleView('md')}><Icon type="icon-refresh" /></span>
+              </span>}
+              {!hideToggle && <span className="button" title={'toggle'} onClick={() => this.handleToggleView('md')}><Icon type="icon-refresh" /></span>}
             </ToolBar>
             <textarea
               id="textarea"
@@ -606,12 +607,12 @@ export class MdEditor extends Component {
                   : <Icon type="icon-chevron-down" />
                 }
               </span>
-              <span className="button" title={view.md ? 'preview' : 'column'} onClick={this.handleHtmlPreview}>
+              {!hidePreview && <span className="button" title={view.md ? 'preview' : 'column'} onClick={this.handleHtmlPreview}>
                 {view.md ? <Icon type="icon-desktop" />
                   : <Icon type="icon-columns" />
                 }
-              </span>
-              <span className="button" title={'toggle'} onClick={() => this.handleToggleView('html')}><Icon type="icon-refresh" /></span>
+              </span>}
+              {!hideToggle && <span className="button" title={'toggle'} onClick={() => this.handleToggleView('html')}><Icon type="icon-refresh" /></span>}
               <span className="button" title="HTML code" onClick={this.handleToggleHtmlType}>
                 {htmlType === 'render' ? <Icon type="icon-embed" />
                   : <Icon type="icon-eye" />
