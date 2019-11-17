@@ -80,7 +80,9 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.1.14"
   },
-  "dependencies": {},
+  "dependencies": {
+    "emoji-mart": "^2.11.1"
+  },
   "browserslist": [
     "defaults",
     "not ie < 11",
